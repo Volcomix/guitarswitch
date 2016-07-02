@@ -1,2 +1,2 @@
-# guitarswitch
+# GuitarSwitch
 LV2 plugins to enable Guitar articulations on Midi notes
