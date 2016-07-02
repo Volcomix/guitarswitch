@@ -16,4 +16,25 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "repeat.h"
+#include "midiplugin.h"
+
+void MidiPlugin::mapUris() {
+    uris.midi_Event = map->map(map->handle, LV2_MIDI__MidiEvent);
+}
+
+void MidiPlugin::connect_port(uint32_t port, void* data) {
+	switch (port) {
+	case IN:
+		in_port = (const LV2_Atom_Sequence*)data;
+		break;
+	case OUT:
+		out_port = (LV2_Atom_Sequence*)data;
+		break;
+	default:
+		break;
+	}
+}
+
+void MidiPlugin::run(uint32_t sample_count) {
+
+}
