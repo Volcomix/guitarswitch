@@ -36,7 +36,7 @@ class Plugin {
     public:
         Plugin(const LV2_Feature* const* features);
 
-        virtual void mapUris() = 0;
+        virtual void mapUris()                               = 0;
         virtual void connect_port(uint32_t port, void* data) = 0;
         virtual void run(uint32_t sample_count)              = 0;
 };
