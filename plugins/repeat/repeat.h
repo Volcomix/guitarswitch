@@ -19,18 +19,13 @@
 #ifndef REPEAT_H
 #define REPEAT_H
 
-#include <cstring>
-
-#include <string>
-#include <iostream>
-
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 #include "lv2/lv2plug.in/ns/ext/atom/util.h"
 #include "lv2/lv2plug.in/ns/ext/urid/urid.h"
 #include "lv2/lv2plug.in/ns/ext/midi/midi.h"
 #include "lv2/lv2plug.in/ns/ext/patch/patch.h"
 
-using namespace std;
+#include "../plugin.h"
 
 #define GS_REPEAT_URI "https://github.com/Volcomix/guitarswitch/plugins/repeat"
 
@@ -46,10 +41,7 @@ typedef struct {
 	LV2_URID patch_value;
 } RepeatURIs;
 
-class Repeat {
-        // Features
-        LV2_URID_Map* map;
-
+class Repeat : public Plugin {
 	    // Ports
         enum {
             IN  = 0,
@@ -60,71 +52,12 @@ class Repeat {
 
         // URIs
         RepeatURIs uris;
+    public:
+        Repeat(const LV2_Feature* const* features) : Plugin(features) { };
 
         void mapUris();
-        
-    public:
-        Repeat(const LV2_Feature* const* features);
         void connect_port(uint32_t port, void* data);
         void run(uint32_t sample_count);
 };
-
-class MissingFeatureException {
-        string featureName;
-    public:
-        MissingFeatureException(string featureName) { this->featureName = featureName; }
-        string getFeatureName()                     { return featureName; }
-};
-
-static void connect_port(LV2_Handle instance, uint32_t port, void* data) {
-    ((Repeat*)instance)->connect_port(port, data);
-}
-
-static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
-                              double                    rate,
-                              const char*               path,
-                              const LV2_Feature* const* features) {
-    try {
-        return (LV2_Handle)new Repeat(features);
-    } catch (MissingFeatureException& e) {
-        cerr << "Missing feature " << e.getFeatureName() << endl;
-    }
-
-	return NULL;
-}
-
-static void cleanup(LV2_Handle instance) {
-	delete (Repeat*)instance;
-}
-
-static void run(LV2_Handle instance, uint32_t sample_count) {
-    ((Repeat*)instance)->run(sample_count);
-}
-
-static const void* extension_data(const char* uri) {
-	return NULL;
-}
-
-static const LV2_Descriptor descriptor = {
-	GS_REPEAT_URI,
-	instantiate,
-	connect_port,
-	NULL,  // activate,
-	run,
-	NULL,  // deactivate,
-	cleanup,
-	extension_data
-};
-
-LV2_SYMBOL_EXPORT
-const LV2_Descriptor* lv2_descriptor(uint32_t index)
-{
-	switch (index) {
-	case 0:
-		return &descriptor;
-	default:
-		return NULL;
-	}
-}
 
 #endif // REPEAT_H
