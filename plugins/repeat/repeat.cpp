@@ -19,9 +19,7 @@
 #include "repeat.h"
 
 Repeat::Repeat(const LV2_Feature* const* features) {
-	cout << "Instatiating Repeat plugin" << endl;
-
-    // Get host features
+	// Get host features
     for (int i = 0; features[i]; ++i) {
 		if (!strcmp(features[i]->URI, LV2_URID__map)) {
 			map = (LV2_URID_Map*)features[i]->data;
@@ -33,8 +31,6 @@ Repeat::Repeat(const LV2_Feature* const* features) {
 
     // Map URIs and initialise forge/logger
     mapUris();
-
-	cout << "Repeat plugin instantiated" << endl;
 }
 
 void Repeat::mapUris() {
@@ -49,10 +45,7 @@ void Repeat::mapUris() {
     uris.patch_value        = map->map(map->handle, LV2_PATCH__value);
 }
 
-void Repeat::connect_port(uint32_t port, void* data)
-{
-	cout << "Connecting Repeat port" << endl;
-
+void Repeat::connect_port(uint32_t port, void* data) {
 	switch (port) {
 	case IN:
 		in_port = (const LV2_Atom_Sequence*)data;
@@ -63,6 +56,8 @@ void Repeat::connect_port(uint32_t port, void* data)
 	default:
 		break;
 	}
+}
 
-	cout << "Repeat port connected" << endl;
+void Repeat::run(uint32_t sample_count) {
+
 }

@@ -66,6 +66,7 @@ class Repeat {
     public:
         Repeat(const LV2_Feature* const* features);
         void connect_port(uint32_t port, void* data);
+        void run(uint32_t sample_count);
 };
 
 class MissingFeatureException {
@@ -93,14 +94,11 @@ static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
 }
 
 static void cleanup(LV2_Handle instance) {
-	cout << "Destroying Repeat plugin" << endl;
-
-    delete (Repeat*)instance;
-
-	cout << "Repeat plugin destroyed" << endl;
+	delete (Repeat*)instance;
 }
 
 static void run(LV2_Handle instance, uint32_t sample_count) {
+    ((Repeat*)instance)->run(sample_count);
 }
 
 static const void* extension_data(const char* uri) {
