@@ -16,9 +16,6 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LV2WRAP_H
-#define LV2WRAP_H
-
 #include <iostream>
 
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
@@ -83,5 +80,3 @@ const LV2_Descriptor* lv2_descriptor(uint32_t index)
 		return NULL;
 	}
 }
-
-#endif // LV2WRAP_H
