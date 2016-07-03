@@ -17,3 +17,42 @@
 */
 
 #include "repeat.h"
+
+void Repeat::repeat(uint8_t note, uint8_t velocity) {
+    MIDINoteEvent repeat;
+    repeat.event = *ev;
+    repeat.msg[0] = LV2_MIDI_MSG_NOTE_ON;
+    repeat.msg[1] = note;
+    repeat.msg[2] = velocity;
+
+    append_event(&repeat.event);
+
+    repeat_note = note;
+    repeat_velocity = velocity;
+}
+
+void Repeat::stop_repeat() {
+    if (repeat_note != -1) {
+        MIDINoteEvent repeat;
+        repeat.event = *ev;
+        repeat.msg[0] = LV2_MIDI_MSG_NOTE_OFF;
+        repeat.msg[1] = repeat_note;
+        repeat.msg[2] = repeat_velocity;
+
+        append_event(&repeat.event);
+
+        repeat_note = -1;
+        repeat_velocity = -1;
+    }
+}
+
+void Repeat::note_on(uint8_t status, uint8_t note, uint8_t velocity) {
+    stop_repeat();
+    forward();
+}
+
+void Repeat::note_off(uint8_t status, uint8_t note, uint8_t velocity) {
+    forward();
+    stop_repeat();
+    repeat(note, velocity);
+}
