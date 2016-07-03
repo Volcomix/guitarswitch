@@ -35,8 +35,12 @@ void MidiPlugin::connect_port(uint32_t port, void* data) {
 	}
 }
 
-void MidiPlugin::forward(LV2_Atom_Event* ev) {
+void MidiPlugin::append_event(LV2_Atom_Event* ev) {
     lv2_atom_sequence_append_event(out_port, out_capacity, ev);
+}
+
+void MidiPlugin::forward() {
+    append_event(ev);
 }
 
 void MidiPlugin::run(uint32_t sample_count) {
@@ -45,13 +49,16 @@ void MidiPlugin::run(uint32_t sample_count) {
 	lv2_atom_sequence_clear(out_port);
     out_port->atom.type = in_port->atom.type;
 
-    LV2_ATOM_SEQUENCE_FOREACH(in_port, ev) {
+    for (ev = lv2_atom_sequence_begin(&in_port->body);
+	     !lv2_atom_sequence_is_end(&in_port->body, in_port->atom.size, ev);
+	     ev = lv2_atom_sequence_next(ev)) {
+             
         if (ev->body.type == uris.midi_Event) {
             const uint8_t* const msg = (const uint8_t*)(ev + 1);
 			switch (lv2_midi_message_type(msg)) {
-            case LV2_MIDI_MSG_NOTE_ON: note_on(ev); break;
-            case LV2_MIDI_MSG_NOTE_OFF: note_off(ev); break;
-            default: forward(ev); break;
+            case LV2_MIDI_MSG_NOTE_ON: note_on(); break;
+            case LV2_MIDI_MSG_NOTE_OFF: note_off(); break;
+            default: forward(); break;
             }
         }
     }
