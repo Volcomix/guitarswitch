@@ -6,7 +6,7 @@ BUNDLE = guitarswitch.lv2
 CXXFLAGS = -fPIC
 
 OBJS = plugins/lv2wrap.o plugins/plugin.o plugins/midiplugin.o \
-          plugins/repeat/repeat.o
+       plugins/repeat/repeat.o
 
 all : guitarswitch.so
 
