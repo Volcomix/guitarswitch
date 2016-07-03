@@ -37,11 +37,11 @@ static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
         Plugin* plugin = new Repeat(features);
 
         // Map URIs and initialise forge/logger
-        plugin->mapUris();
+        plugin->map_uris();
 
         return (LV2_Handle)plugin;
     } catch (MissingFeatureException& e) {
-        cerr << "Missing feature " << e.getFeatureName() << endl;
+        cerr << "Missing feature " << e.get_feature_name() << endl;
     }
 
 	return NULL;

@@ -18,7 +18,7 @@
 
 #include "midiplugin.h"
 
-void MidiPlugin::mapUris() {
+void MidiPlugin::map_uris() {
     uris.midi_Event = map->map(map->handle, LV2_MIDI__MidiEvent);
 }
 
@@ -49,8 +49,8 @@ void MidiPlugin::run(uint32_t sample_count) {
         if (ev->body.type == uris.midi_Event) {
             const uint8_t* const msg = (const uint8_t*)(ev + 1);
 			switch (lv2_midi_message_type(msg)) {
-            case LV2_MIDI_MSG_NOTE_ON: noteOn(ev); break;
-            case LV2_MIDI_MSG_NOTE_OFF: noteOff(ev); break;
+            case LV2_MIDI_MSG_NOTE_ON: note_on(ev); break;
+            case LV2_MIDI_MSG_NOTE_OFF: note_off(ev); break;
             default: forward(ev); break;
             }
         }

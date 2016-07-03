@@ -36,16 +36,20 @@ class Plugin {
     public:
         Plugin(const LV2_Feature* const* features);
 
-        virtual void mapUris()                               = 0;
+        virtual void map_uris()                              = 0;
         virtual void connect_port(uint32_t port, void* data) = 0;
         virtual void run(uint32_t sample_count)              = 0;
 };
 
 class MissingFeatureException {
-        string featureName;
+        string feature_name;
     public:
-        MissingFeatureException(string featureName) { this->featureName = featureName; }
-        string getFeatureName()                     { return featureName; }
+        MissingFeatureException(string feature_name) {
+            this->feature_name = feature_name;
+        }
+        string get_feature_name() {
+            return feature_name;
+        }
 };
 
 #endif // PLUGIN_H
