@@ -22,6 +22,17 @@
 #include "midiplugin.h"
 
 class Articulation : public MidiPlugin {
+        bool activated;
+    protected:
+        virtual void note_on(uint8_t channel, uint8_t note, uint8_t velocity);
+        virtual void note_off(uint8_t channel, uint8_t note, uint8_t velocity);
+
+        virtual void activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
+            forward();
+        }
+        virtual void activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
+            forward();
+        }
     public:
         Articulation(const LV2_Feature* const* features) : MidiPlugin(features) { };
 };

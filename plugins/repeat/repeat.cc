@@ -52,10 +52,10 @@ void Repeat::stop_repeat() {
 
 void Repeat::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
     stop_repeat();
-    forward();
+    Articulation::note_on(channel, note, velocity);
 }
 
-void Repeat::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
+void Repeat::activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     forward();
     stop_repeat();
     repeat(channel, note, velocity);

@@ -17,3 +17,23 @@
 */
 
 #include "articulation.h"
+
+void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
+    if (note == 38) {
+        activated = true;
+    } else if (activated) {
+        activated_note_on(channel, note, velocity);
+    } else {
+        forward();
+    }
+}
+
+void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
+    if (note == 38) {
+        activated = false;
+    } else if (activated) {
+        activated_note_off(channel, note, velocity);
+    } else {
+        forward();
+    }
+}

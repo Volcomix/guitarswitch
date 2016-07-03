@@ -42,18 +42,18 @@ class MidiPlugin : public Plugin {
         URIs uris;
 
         uint32_t out_capacity;
+    protected:
+        LV2_Atom_Event* ev;
 
+        void append_event(LV2_Atom_Event* ev);
+        void forward();
+        
         virtual void note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
             forward();
         }
         virtual void note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
             forward();
         }
-    protected:
-        LV2_Atom_Event* ev;
-
-        void append_event(LV2_Atom_Event* ev);
-        void forward();
     public:
         MidiPlugin(const LV2_Feature* const* features) : Plugin(features) { };
 
