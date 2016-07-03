@@ -55,10 +55,11 @@ void MidiPlugin::run(uint32_t sample_count) {
              
         if (ev->body.type == uris.midi_Event) {
             const uint8_t* const msg = (const uint8_t*)(ev + 1);
+            const uint8_t channel    = msg[0] & 0x0f;
 			switch (lv2_midi_message_type(msg)) {
-            case LV2_MIDI_MSG_NOTE_ON: note_on(msg[0], msg[1], msg[2]); break;
-            case LV2_MIDI_MSG_NOTE_OFF: note_off(msg[0], msg[1], msg[2]); break;
-            default: forward(); break;
+            case LV2_MIDI_MSG_NOTE_ON : note_on(channel, msg[1], msg[2]);  break;
+            case LV2_MIDI_MSG_NOTE_OFF: note_off(channel, msg[1], msg[2]); break;
+            default                   : forward();                         break;
             }
         }
     }

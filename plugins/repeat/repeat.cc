@@ -18,41 +18,43 @@
 
 #include "repeat.h"
 
-void Repeat::repeat(uint8_t note, uint8_t velocity) {
+void Repeat::repeat(uint8_t channel, uint8_t note, uint8_t velocity) {
     MIDINoteEvent repeat;
-    repeat.event = *ev;
-    repeat.msg[0] = LV2_MIDI_MSG_NOTE_ON;
+    repeat.event  = *ev;
+    repeat.msg[0] = channel | LV2_MIDI_MSG_NOTE_ON;
     repeat.msg[1] = note;
     repeat.msg[2] = velocity;
 
     append_event(&repeat.event);
 
-    repeat_note = note;
+    repeat_channel  = channel;
+    repeat_note     = note;
     repeat_velocity = velocity;
 }
 
 void Repeat::stop_repeat() {
     if (repeat_note != -1) {
-        MIDINoteEvent repeat;
-        repeat.event = *ev;
-        repeat.msg[0] = LV2_MIDI_MSG_NOTE_OFF;
-        repeat.msg[1] = repeat_note;
-        repeat.msg[2] = repeat_velocity;
+        MIDINoteEvent stop;
+        stop.event  = *ev;
+        stop.msg[0] = repeat_channel | LV2_MIDI_MSG_NOTE_OFF;
+        stop.msg[1] = repeat_note;
+        stop.msg[2] = repeat_velocity;
 
-        append_event(&repeat.event);
+        append_event(&stop.event);
 
-        repeat_note = -1;
+        repeat_channel  = -1;
+        repeat_note     = -1;
         repeat_velocity = -1;
     }
 }
 
-void Repeat::note_on(uint8_t status, uint8_t note, uint8_t velocity) {
+void Repeat::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
     stop_repeat();
     forward();
 }
 
-void Repeat::note_off(uint8_t status, uint8_t note, uint8_t velocity) {
+void Repeat::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     forward();
     stop_repeat();
-    repeat(note, velocity);
+    repeat(channel, note, velocity);
 }

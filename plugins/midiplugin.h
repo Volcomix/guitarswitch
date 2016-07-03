@@ -43,15 +43,15 @@ class MidiPlugin : public Plugin {
 
         uint32_t out_capacity;
 
-        virtual void note_on(uint8_t status, uint8_t note, uint8_t velocity) {
+        virtual void note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
             forward();
         }
-        virtual void note_off(uint8_t status, uint8_t note, uint8_t velocity) {
+        virtual void note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
             forward();
         }
     protected:
         LV2_Atom_Event* ev;
-        
+
         void append_event(LV2_Atom_Event* ev);
         void forward();
     public:
