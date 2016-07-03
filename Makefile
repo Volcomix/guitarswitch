@@ -1,12 +1,22 @@
-objects = plugins/lv2wrap.o plugins/plugin.o plugins/midiplugin.o \
-          plugins/repeat/repeat.o
+PREFIX = /usr/local
+LV2DIR = $(PREFIX)/lib/lv2
+
+BUNDLE = guitarswitch.lv2
 
 CXXFLAGS = -fPIC
 
-guitarswitch.so : $(objects)
-	cc -shared -o guitarswitch.so $(objects)
+OBJS = plugins/lv2wrap.o plugins/plugin.o plugins/midiplugin.o \
+          plugins/repeat/repeat.o
 
-$(objects) : plugins/plugin.h plugins/midiplugin.h plugins/repeat/repeat.h
+all : guitarswitch.so
+
+guitarswitch.so : $(OBJS)
+	cc -shared -o guitarswitch.so $(OBJS)
+
+$(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/repeat/repeat.h
+
+install : all
+	install guitarswitch.so $(DESTDIR)$(LV2DIR)/$(BUNDLE)
 
 clean :
-	rm guitarswitch.so $(objects)
+	rm guitarswitch.so $(OBJS)
