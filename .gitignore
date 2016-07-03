@@ -28,5 +28,5 @@
 *.out
 *.app
 
-# Local IDE configuration
-.vscode
+# Visual Studio Code symbol offline database
+.vscode/.browse.VC.db*
