@@ -23,18 +23,17 @@
 
 #include "../midiplugin.h"
 
-#define GS_REPEAT_URI "https://github.com/Volcomix/guitarswitch/plugins/repeat"
-
 class Repeat : public MidiPlugin {
         uint8_t repeat_channel;
         uint8_t repeat_note;
         uint8_t repeat_velocity;
-        
+
         void stop_repeat();
         void repeat(uint8_t channel, uint8_t note, uint8_t velocity);
         void note_on(uint8_t channel, uint8_t note, uint8_t velocity);
         void note_off(uint8_t channel, uint8_t note, uint8_t velocity);
     public:
+        static const char* URI;
         Repeat(const LV2_Feature* const* features) : MidiPlugin(features) { };
 };
 

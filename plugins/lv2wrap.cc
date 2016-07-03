@@ -29,12 +29,13 @@ static void connect_port(LV2_Handle instance, uint32_t port, void* data) {
     ((Plugin*)instance)->connect_port(port, data);
 }
 
+template <class T>
 static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
                               double                    rate,
                               const char*               path,
                               const LV2_Feature* const* features) {
     try {
-        Plugin* plugin = new Repeat(features);
+        Plugin* plugin = new T(features);
 
         // Map URIs and initialise forge/logger
         plugin->map_uris();
@@ -59,23 +60,26 @@ static const void* extension_data(const char* uri) {
 	return NULL;
 }
 
-static const LV2_Descriptor descriptor = {
-	GS_REPEAT_URI,
-	instantiate,
-	connect_port,
-	NULL,  // activate,
-	run,
-	NULL,  // deactivate,
-	cleanup,
-	extension_data
-};
+template <class T>
+static const LV2_Descriptor* descriptor() {
+    LV2_Descriptor* descriptor = new LV2_Descriptor;
+    descriptor->URI            = T::URI;
+    descriptor->instantiate    = instantiate<T>;
+    descriptor->connect_port   = connect_port;
+    descriptor->activate       = NULL;
+    descriptor->run            = run;
+    descriptor->deactivate     = NULL;
+    descriptor->cleanup        = cleanup;
+    descriptor->extension_data = extension_data;
+    return descriptor;
+}
 
 LV2_SYMBOL_EXPORT
 const LV2_Descriptor* lv2_descriptor(uint32_t index)
 {
 	switch (index) {
 	case 0:
-		return &descriptor;
+		return descriptor<Repeat>();
 	default:
 		return NULL;
 	}

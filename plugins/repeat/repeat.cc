@@ -18,6 +18,8 @@
 
 #include "repeat.h"
 
+const char* Repeat::URI = "https://github.com/Volcomix/guitarswitch/plugins/repeat";
+
 void Repeat::repeat(uint8_t channel, uint8_t note, uint8_t velocity) {
     MIDINoteEvent repeat;
     repeat.event  = *ev;
