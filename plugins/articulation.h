@@ -42,7 +42,7 @@ class Articulation : public MidiPlugin {
     public:
         Articulation(const LV2_Feature* const* features) : MidiPlugin(features) { };
 
-        void connect_port(uint32_t port, void* data);
+        virtual void connect_port(uint32_t port, void* data);
 };
 
 #endif // ARTICULATION_H

@@ -58,8 +58,9 @@ class MidiPlugin : public Plugin {
         MidiPlugin(const LV2_Feature* const* features) : Plugin(features) { };
 
         void map_uris();
-        void connect_port(uint32_t port, void* data);
         void run(uint32_t sample_count);
+        
+        virtual void connect_port(uint32_t port, void* data);
 };
 
 typedef struct {
