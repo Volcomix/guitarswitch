@@ -16,8 +16,11 @@ guitarswitch.so : $(OBJS)
 $(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/articulation.h \
           plugins/repeat/repeat.h
 
-install : all
+install : all manifest.ttl.in plugins/repeat/repeat.ttl
+	install -d $(DESTDIR)$(LV2DIR)/$(BUNDLE)
 	install guitarswitch.so $(DESTDIR)$(LV2DIR)/$(BUNDLE)
+	install -m644 manifest.ttl.in $(DESTDIR)$(LV2DIR)/$(BUNDLE)/manifest.ttl
+	install -m644 plugins/repeat/repeat.ttl $(DESTDIR)$(LV2DIR)/$(BUNDLE)
 
 clean :
 	rm guitarswitch.so $(OBJS)
