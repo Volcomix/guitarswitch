@@ -19,13 +19,13 @@
 #include "plugin.h"
 
 Plugin::Plugin(const LV2_Feature* const* features) {
-	// Get host features
+    // Get host features
     for (int i = 0; features[i]; ++i) {
-		if (!strcmp(features[i]->URI, LV2_URID__map)) {
-			map = (LV2_URID_Map*)features[i]->data;
-		}
-	}
+        if (!strcmp(features[i]->URI, LV2_URID__map)) {
+            map = (LV2_URID_Map*)features[i]->data;
+        }
+    }
     if (!map) {
         throw MissingFeatureException("urid:map");
-	}
+    }
 }

@@ -2,6 +2,6 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 <https://github.com/Volcomix/guitarswitch/plugins/repeat>
-	a lv2:Plugin ;
-	lv2:binary <guitarswitch.so> ;
+    a lv2:Plugin ;
+    lv2:binary <guitarswitch.so> ;
 rdfs:seeAlso <repeat.ttl> .

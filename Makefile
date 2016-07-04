@@ -14,7 +14,7 @@ guitarswitch.so : $(OBJS)
 	cc -shared -o guitarswitch.so $(OBJS)
 
 $(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/articulation.h \
-		  plugins/repeat/repeat.h
+          plugins/repeat/repeat.h
 
 install : all
 	install guitarswitch.so $(DESTDIR)$(LV2DIR)/$(BUNDLE)

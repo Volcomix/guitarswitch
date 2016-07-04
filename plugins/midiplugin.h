@@ -27,12 +27,12 @@
 #include "plugin.h"
 
 class MidiPlugin : public Plugin {
-	    // Ports
+        // Ports
         enum {
             IN  = 0,
             OUT = 1
         };
-	    const LV2_Atom_Sequence* in_port;
+        const LV2_Atom_Sequence* in_port;
         LV2_Atom_Sequence* out_port;
 
         // URIs

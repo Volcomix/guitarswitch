@@ -45,11 +45,11 @@ static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
         cerr << "Missing feature " << e.get_feature_name() << endl;
     }
 
-	return NULL;
+    return NULL;
 }
 
 static void cleanup(LV2_Handle instance) {
-	delete (Plugin*)instance;
+    delete (Plugin*)instance;
 }
 
 static void run(LV2_Handle instance, uint32_t sample_count) {
@@ -57,7 +57,7 @@ static void run(LV2_Handle instance, uint32_t sample_count) {
 }
 
 static const void* extension_data(const char* uri) {
-	return NULL;
+    return NULL;
 }
 
 template <class T>
@@ -77,10 +77,10 @@ static const LV2_Descriptor* descriptor() {
 LV2_SYMBOL_EXPORT
 const LV2_Descriptor* lv2_descriptor(uint32_t index)
 {
-	switch (index) {
-	case 0:
-		return descriptor<Repeat>();
-	default:
-		return NULL;
-	}
+    switch (index) {
+    case 0:
+        return descriptor<Repeat>();
+    default:
+        return NULL;
+    }
 }

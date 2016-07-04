@@ -5,26 +5,26 @@
 @prefix midi:  <http://lv2plug.in/ns/ext/midi#> .
 
 <https://github.com/Volcomix/guitarswitch/plugins/repeat>
-	a lv2:Plugin ;
-	doap:name "Repeat articulation" ;
-	doap:license <http://www.gnu.org/licenses/gpl.html> ;
-	lv2:project <https://github.com/Volcomix/guitarswitch> ;
-	lv2:requiredFeature urid:map ;
-	lv2:optionalFeature lv2:hardRTCapable ;
-	lv2:port [
-		a lv2:InputPort ,
-			atom:AtomPort ;
-		atom:bufferType atom:Sequence ;
-		atom:supports midi:MidiEvent ;
-		lv2:index 0 ;
-		lv2:symbol "in" ;
-		lv2:name "In"
-	] , [
-		a lv2:OutputPort ,
-			atom:AtomPort ;
-		atom:bufferType atom:Sequence ;
-		atom:supports midi:MidiEvent ;
-		lv2:index 1 ;
-		lv2:symbol "out" ;
-		lv2:name "Out"
+    a lv2:Plugin ;
+    doap:name "Repeat articulation" ;
+    doap:license <http://www.gnu.org/licenses/gpl.html> ;
+    lv2:project <https://github.com/Volcomix/guitarswitch> ;
+    lv2:requiredFeature urid:map ;
+    lv2:optionalFeature lv2:hardRTCapable ;
+    lv2:port [
+        a lv2:InputPort ,
+            atom:AtomPort ;
+        atom:bufferType atom:Sequence ;
+        atom:supports midi:MidiEvent ;
+        lv2:index 0 ;
+        lv2:symbol "in" ;
+        lv2:name "In"
+    ] , [
+        a lv2:OutputPort ,
+            atom:AtomPort ;
+        atom:bufferType atom:Sequence ;
+        atom:supports midi:MidiEvent ;
+        lv2:index 1 ;
+        lv2:symbol "out" ;
+        lv2:name "Out"
 ] .
