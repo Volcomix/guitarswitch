@@ -28,6 +28,10 @@
             "args": ["LV2DIR=~/.lv2"]
         },
         {
+            "taskName": "uninstall",
+            "args": ["LV2DIR=~/.lv2"]
+        },
+        {
             "taskName": "clean"
         }
     ]

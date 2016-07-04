@@ -22,5 +22,8 @@ install : all manifest.ttl.in plugins/repeat/repeat.ttl
 	install -m644 manifest.ttl.in $(DESTDIR)$(LV2DIR)/$(BUNDLE)/manifest.ttl
 	install -m644 plugins/repeat/repeat.ttl $(DESTDIR)$(LV2DIR)/$(BUNDLE)
 
+uninstall :
+	rm -rf $(DESTDIR)$(LV2DIR)/$(BUNDLE)
+
 clean :
 	rm guitarswitch.so $(OBJS)
