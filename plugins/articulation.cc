@@ -18,8 +18,19 @@
 
 #include "articulation.h"
 
+void Articulation::connect_port(uint32_t port, void* data) {
+    switch (port) {
+    case ACTIVATE_KEY:
+        activate_key = (const float*)data;
+        break;
+    default:
+        MidiPlugin::connect_port(port, data);
+        break;
+    }
+}
+
 void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-    if (note == 38) {
+    if (note == (uint8_t)*activate_key) {
         activated = true;
     } else if (activated) {
         activated_note_on(channel, note, velocity);
@@ -29,7 +40,7 @@ void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
 }
 
 void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
-    if (note == 38) {
+    if (note == (uint8_t)*activate_key) {
         activated = false;
     } else if (activated) {
         activated_note_off(channel, note, velocity);

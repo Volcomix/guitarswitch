@@ -22,6 +22,12 @@
 #include "midiplugin.h"
 
 class Articulation : public MidiPlugin {
+        // Ports
+        enum {
+            ACTIVATE_KEY = 2
+        };
+        const float* activate_key;
+
         bool activated;
     protected:
         virtual void note_on(uint8_t channel, uint8_t note, uint8_t velocity);
@@ -35,6 +41,8 @@ class Articulation : public MidiPlugin {
         }
     public:
         Articulation(const LV2_Feature* const* features) : MidiPlugin(features) { };
+
+        void connect_port(uint32_t port, void* data);
 };
 
 #endif // ARTICULATION_H
