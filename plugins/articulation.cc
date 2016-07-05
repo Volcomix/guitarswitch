@@ -35,7 +35,7 @@ void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
     } else if (activated) {
         activated_note_on(channel, note, velocity);
     } else {
-        forward();
+        deactivated_note_on(channel, note, velocity);
     }
 }
 
@@ -45,6 +45,6 @@ void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     } else if (activated) {
         activated_note_off(channel, note, velocity);
     } else {
-        forward();
+        deactivated_note_off(channel, note, velocity);
     }
 }

@@ -29,20 +29,29 @@ class Articulation : public MidiPlugin {
         const float* activate_key;
 
         bool activated;
-    protected:
-        virtual void note_on(uint8_t channel, uint8_t note, uint8_t velocity);
-        virtual void note_off(uint8_t channel, uint8_t note, uint8_t velocity);
 
-        virtual void activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-            forward();
-        }
-        virtual void activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
-            forward();
-        }
+        void connect_port(uint32_t port, void* data);
+
+        void note_on(uint8_t channel, uint8_t note, uint8_t velocity);
+        void note_off(uint8_t channel, uint8_t note, uint8_t velocity);
+    protected:
+        virtual void activated_note_on(uint8_t channel,
+                                       uint8_t note,
+                                       uint8_t velocity) { forward(); }
+
+        virtual void deactivated_note_on(uint8_t channel,
+                                         uint8_t note,
+                                         uint8_t velocity) { forward(); }
+
+        virtual void activated_note_off(uint8_t channel,
+                                        uint8_t note,
+                                        uint8_t velocity) { forward(); }
+
+        virtual void deactivated_note_off(uint8_t channel,
+                                          uint8_t note,
+                                          uint8_t velocity) { forward(); }
     public:
         Articulation(const LV2_Feature* const* features) : MidiPlugin(features) { };
-
-        virtual void connect_port(uint32_t port, void* data);
 };
 
 #endif // ARTICULATION_H

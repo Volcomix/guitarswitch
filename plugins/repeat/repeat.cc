@@ -50,9 +50,14 @@ void Repeat::stop_repeat() {
     }
 }
 
-void Repeat::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
+void Repeat::activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
     stop_repeat();
-    Articulation::note_on(channel, note, velocity);
+    forward();
+}
+
+void Repeat::deactivated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
+    stop_repeat();
+    forward();
 }
 
 void Repeat::activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
