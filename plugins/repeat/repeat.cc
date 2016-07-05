@@ -56,8 +56,7 @@ void Repeat::activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) 
 }
 
 void Repeat::deactivated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-    stop_repeat();
-    forward();
+    activated_note_on(channel, note, velocity);
 }
 
 void Repeat::activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
