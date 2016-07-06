@@ -32,6 +32,7 @@ void Articulation::connect_port(uint32_t port, void* data) {
 void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
     if (note == (uint8_t)*activate_key) {
         activated = true;
+        forward();
     } else if (activated) {
         activated_note_on(channel, note, velocity);
     } else {
@@ -42,6 +43,7 @@ void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
 void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     if (note == (uint8_t)*activate_key) {
         activated = false;
+        forward();
     } else if (activated) {
         activated_note_off(channel, note, velocity);
     } else {
