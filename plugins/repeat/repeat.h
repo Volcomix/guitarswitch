@@ -24,9 +24,9 @@
 #include "../articulation.h"
 
 class Repeat : public Articulation {
-        uint8_t repeat_channel;
-        uint8_t repeat_note;
-        uint8_t repeat_velocity;
+        uint8_t repeat_channel  = 255;
+        uint8_t repeat_note     = 255;
+        uint8_t repeat_velocity = 255;
 
         void stop_repeat();
         void repeat(uint8_t channel, uint8_t note, uint8_t velocity);

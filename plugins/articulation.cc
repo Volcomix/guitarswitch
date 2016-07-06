@@ -40,10 +40,14 @@ void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
         break;
     case STOP:
         if (note == (uint8_t)*activate_key) {
+            forward();
             if (last_note != 255) {
-                uint8_t* msg = (uint8_t*)(ev + 1);
-                msg[0] = channel | LV2_MIDI_MSG_NOTE_OFF;
-                msg[1] = last_note;
+                MIDINoteEvent stop;
+                stop.event  = *ev;
+                stop.msg[0] = channel | LV2_MIDI_MSG_NOTE_OFF;
+                stop.msg[1] = last_note;
+                stop.msg[2] = velocity;
+                ev = &stop.event;
                 activated_note_off(channel, last_note, velocity);
                 last_note = 255;
             }
@@ -71,7 +75,9 @@ void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
         }
         break;
     case STOP:
-        if (note != (uint8_t)*activate_key) {
+        if (note == (uint8_t)*activate_key) {
+            forward();
+        } else {
             deactivated_note_off(channel, note, velocity);
             if (note == last_note) {
                 last_note = 255;

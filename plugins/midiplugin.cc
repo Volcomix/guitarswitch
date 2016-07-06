@@ -16,7 +16,11 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <iostream>
+
 #include "midiplugin.h"
+
+using namespace std;
 
 void MidiPlugin::map_uris() {
     uris.midi_Event = map->map(map->handle, LV2_MIDI__MidiEvent);
@@ -31,6 +35,17 @@ void MidiPlugin::connect_port(uint32_t port, void* data) {
 }
 
 void MidiPlugin::append_event(LV2_Atom_Event* ev) {
+    if (ev->body.type == uris.midi_Event) {
+        const uint8_t* const msg = (const uint8_t*)(ev + 1);
+        switch (lv2_midi_message_type(msg)) {
+        case LV2_MIDI_MSG_NOTE_ON :
+            cout << "ON  | " << (int)msg[1] << " | " << (int)msg[2] << endl;
+            break;
+        case LV2_MIDI_MSG_NOTE_OFF:
+            cout << "OFF | " << (int)msg[1] << " | " << (int)msg[2] << endl;
+            break;
+        }
+    }
     lv2_atom_sequence_append_event(out_port, out_capacity, ev);
 }
 
@@ -44,10 +59,11 @@ void MidiPlugin::run(uint32_t sample_count) {
     lv2_atom_sequence_clear(out_port);
     out_port->atom.type = in_port->atom.type;
 
-    for (ev = lv2_atom_sequence_begin(&in_port->body);
-         !lv2_atom_sequence_is_end(&in_port->body, in_port->atom.size, ev);
-         ev = lv2_atom_sequence_next(ev)) {
-             
+    LV2_ATOM_SEQUENCE_FOREACH(in_port, ev) {
+        // ev is used for looping through sequence
+        // this->ev could be modified by a plugin to point elsewhere
+        // so the following line is required to not alter ev pointer
+        this->ev = ev;
         if (ev->body.type == uris.midi_Event) {
             const uint8_t* const msg = (const uint8_t*)(ev + 1);
             const uint8_t channel    = msg[0] & 0x0f;
