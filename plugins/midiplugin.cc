@@ -24,14 +24,9 @@ void MidiPlugin::map_uris() {
 
 void MidiPlugin::connect_port(uint32_t port, void* data) {
     switch (port) {
-    case IN:
-        in_port = (const LV2_Atom_Sequence*)data;
-        break;
-    case OUT:
-        out_port = (LV2_Atom_Sequence*)data;
-        break;
-    default:
-        break;
+    case IN : in_port = (const LV2_Atom_Sequence*)data; break;
+    case OUT: out_port = (LV2_Atom_Sequence*)data;      break;
+    default :                                           break;
     }
 }
 

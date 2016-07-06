@@ -24,11 +24,20 @@
 class Articulation : public MidiPlugin {
         // Ports
         enum {
-            ACTIVATE_KEY = 2
+            MODE         = 2,
+            ACTIVATE_KEY = 3
         };
+        enum Mode {
+            ALWAYS = 0,
+            HOLD   = 1,
+            STOP   = 2
+        };
+        const float* mode;
         const float* activate_key;
 
         bool activated;
+
+        uint8_t last_note;
 
         void connect_port(uint32_t port, void* data);
 

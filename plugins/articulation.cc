@@ -20,33 +20,54 @@
 
 void Articulation::connect_port(uint32_t port, void* data) {
     switch (port) {
-    case ACTIVATE_KEY:
-        activate_key = (const float*)data;
-        break;
-    default:
-        MidiPlugin::connect_port(port, data);
-        break;
+    case MODE        : mode         = (const float*)data;    break;
+    case ACTIVATE_KEY: activate_key = (const float*)data;    break;
+    default          : MidiPlugin::connect_port(port, data); break;
     }
 }
 
 void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-    if (note == (uint8_t)*activate_key) {
-        activated = true;
-        forward();
-    } else if (activated) {
+    switch ((int)*mode) {
+    case HOLD:
+        if (note == (uint8_t)*activate_key) {
+            activated = true;
+            forward();
+        } else if (activated) {
+            activated_note_on(channel, note, velocity);
+        } else {
+            deactivated_note_on(channel, note, velocity);
+        }
+        break;
+    case STOP:
+        if (note == (uint8_t)*activate_key) {
+            activated_note_off(channel, note, velocity);
+        } else {
+            deactivated_note_on(channel, note, velocity);
+        }
+        break;
+    default: // ALWAYS
         activated_note_on(channel, note, velocity);
-    } else {
-        deactivated_note_on(channel, note, velocity);
+        break;
     }
 }
 
 void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
-    if (note == (uint8_t)*activate_key) {
-        activated = false;
-        forward();
-    } else if (activated) {
-        activated_note_off(channel, note, velocity);
-    } else {
+    switch ((int)*mode) {
+    case HOLD:
+        if (note == (uint8_t)*activate_key) {
+            activated = false;
+            forward();
+        } else if (activated) {
+            activated_note_off(channel, note, velocity);
+        } else {
+            deactivated_note_off(channel, note, velocity);
+        }
+        break;
+    case STOP:
         deactivated_note_off(channel, note, velocity);
+        break;
+    default: // ALWAYS
+        activated_note_off(channel, note, velocity);
+        break;
     }
 }
