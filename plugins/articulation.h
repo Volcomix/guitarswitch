@@ -37,7 +37,7 @@ class Articulation : public MidiPlugin {
 
         bool activated;
 
-        uint8_t last_note;
+        uint8_t last_note = 255; // STOP mode
 
         void connect_port(uint32_t port, void* data);
 

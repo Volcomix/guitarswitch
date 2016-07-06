@@ -35,7 +35,7 @@ void Repeat::repeat(uint8_t channel, uint8_t note, uint8_t velocity) {
 }
 
 void Repeat::stop_repeat() {
-    if (repeat_note != -1) {
+    if (repeat_note != 255) {
         MIDINoteEvent stop;
         stop.event  = *ev;
         stop.msg[0] = repeat_channel | LV2_MIDI_MSG_NOTE_OFF;
@@ -44,9 +44,9 @@ void Repeat::stop_repeat() {
 
         append_event(&stop.event);
 
-        repeat_channel  = -1;
-        repeat_note     = -1;
-        repeat_velocity = -1;
+        repeat_channel  = 255;
+        repeat_note     = 255;
+        repeat_velocity = 255;
     }
 }
 
