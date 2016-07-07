@@ -49,14 +49,16 @@ void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
                 stop.msg[2] = velocity;
                 ev = &stop.event;
                 activated_note_off(channel, last_note, velocity);
-                last_note = 255;
+
+                cancel_note_off = last_note;
+                last_note       = 255;
             }
         } else {
             last_note = note;
             deactivated_note_on(channel, note, velocity);
         }
         break;
-    default: // ALWAYS
+    default: // ALWAYS mode
         activated_note_on(channel, note, velocity);
         break;
     }
@@ -77,6 +79,8 @@ void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     case STOP:
         if (note == (uint8_t)*activate_key) {
             forward();
+        } else if (note == cancel_note_off) {
+            cancel_note_off = 255;
         } else {
             deactivated_note_off(channel, note, velocity);
             if (note == last_note) {
@@ -84,7 +88,7 @@ void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
             }
         }
         break;
-    default: // ALWAYS
+    default: // ALWAYS mode
         activated_note_off(channel, note, velocity);
         break;
     }
