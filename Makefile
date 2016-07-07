@@ -3,7 +3,8 @@ LV2DIR = $(PREFIX)/lib/lv2
 
 BUNDLE = guitarswitch.lv2
 
-CXXFLAGS = -fPIC
+# -DDEBUG might be added to DEFS
+CXXFLAGS = -fPIC $(DEFS)
 
 OBJS = plugins/lv2wrap.o plugins/plugin.o plugins/midiplugin.o \
        plugins/articulation.o plugins/repeat/repeat.o

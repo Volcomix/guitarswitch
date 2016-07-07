@@ -28,6 +28,11 @@
             "args": ["LV2DIR=~/.lv2"]
         },
         {
+            "taskName": "debug",
+            "suppressTaskName": true,
+            "args": ["LV2DIR=~/.lv2", "DEFS=-DDEBUG", "install"]
+        },
+        {
             "taskName": "uninstall",
             "args": ["LV2DIR=~/.lv2"]
         },

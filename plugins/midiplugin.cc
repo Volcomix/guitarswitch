@@ -16,11 +16,12 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
+#ifdef DEBUG
+    #include <iostream>
+    using namespace std;
+#endif
 
 #include "midiplugin.h"
-
-using namespace std;
 
 void MidiPlugin::map_uris() {
     uris.midi_Event = map->map(map->handle, LV2_MIDI__MidiEvent);
@@ -35,17 +36,19 @@ void MidiPlugin::connect_port(uint32_t port, void* data) {
 }
 
 void MidiPlugin::append_event(LV2_Atom_Event* ev) {
-    if (ev->body.type == uris.midi_Event) {
-        const uint8_t* const msg = (const uint8_t*)(ev + 1);
-        switch (lv2_midi_message_type(msg)) {
-        case LV2_MIDI_MSG_NOTE_ON :
-            cout << "ON  | " << (int)msg[1] << " | " << (int)msg[2] << endl;
-            break;
-        case LV2_MIDI_MSG_NOTE_OFF:
-            cout << "OFF | " << (int)msg[1] << " | " << (int)msg[2] << endl;
-            break;
+    #ifdef DEBUG
+        if (ev->body.type == uris.midi_Event) {
+            const uint8_t* const msg = (const uint8_t*)(ev + 1);
+            switch (lv2_midi_message_type(msg)) {
+            case LV2_MIDI_MSG_NOTE_ON :
+                cout << "ON  | " << (int)msg[1] << " | " << (int)msg[2] << endl;
+                break;
+            case LV2_MIDI_MSG_NOTE_OFF:
+                cout << "OFF | " << (int)msg[1] << " | " << (int)msg[2] << endl;
+                break;
+            }
         }
-    }
+    #endif
     lv2_atom_sequence_append_event(out_port, out_capacity, ev);
 }
 
