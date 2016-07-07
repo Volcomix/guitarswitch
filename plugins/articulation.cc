@@ -26,70 +26,74 @@ void Articulation::connect_port(uint32_t port, void* data) {
     }
 }
 
+void Articulation::hold_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
+    if (note == (uint8_t)*activate_key) {
+        activated = true;
+        forward();
+    } else if (activated) {
+        activated_note_on(channel, note, velocity);
+    } else {
+        deactivated_note_on(channel, note, velocity);
+    }
+}
+
+void Articulation::hold_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
+    if (note == (uint8_t)*activate_key) {
+        activated = false;
+        forward();
+    } else if (activated) {
+        activated_note_off(channel, note, velocity);
+    } else {
+        deactivated_note_off(channel, note, velocity);
+    }
+}
+
+void Articulation::stop_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
+    if (note == (uint8_t)*activate_key) {
+        forward();
+        if (last_note != 255) {
+            MIDINoteEvent stop;
+            stop.event  = *ev;
+            stop.msg[0] = channel | LV2_MIDI_MSG_NOTE_OFF;
+            stop.msg[1] = last_note;
+            stop.msg[2] = velocity;
+            ev = &stop.event;
+            activated_note_off(channel, last_note, velocity);
+
+            cancel_note_off = last_note;
+            last_note       = 255;
+        }
+    } else {
+        last_note = note;
+        deactivated_note_on(channel, note, velocity);
+    }
+}
+
+void Articulation::stop_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
+    if (note == (uint8_t)*activate_key) {
+        forward();
+    } else if (note == cancel_note_off) {
+        cancel_note_off = 255;
+    } else {
+        deactivated_note_off(channel, note, velocity);
+        if (note == last_note) {
+            last_note = 255;
+        }
+    }
+}
+
 void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
     switch ((int)*mode) {
-    case HOLD:
-        if (note == (uint8_t)*activate_key) {
-            activated = true;
-            forward();
-        } else if (activated) {
-            activated_note_on(channel, note, velocity);
-        } else {
-            deactivated_note_on(channel, note, velocity);
-        }
-        break;
-    case STOP:
-        if (note == (uint8_t)*activate_key) {
-            forward();
-            if (last_note != 255) {
-                MIDINoteEvent stop;
-                stop.event  = *ev;
-                stop.msg[0] = channel | LV2_MIDI_MSG_NOTE_OFF;
-                stop.msg[1] = last_note;
-                stop.msg[2] = velocity;
-                ev = &stop.event;
-                activated_note_off(channel, last_note, velocity);
-
-                cancel_note_off = last_note;
-                last_note       = 255;
-            }
-        } else {
-            last_note = note;
-            deactivated_note_on(channel, note, velocity);
-        }
-        break;
-    default: // ALWAYS mode
-        activated_note_on(channel, note, velocity);
-        break;
+    case HOLD: hold_note_on(channel, note, velocity);      break;
+    case STOP: stop_note_on(channel, note, velocity);      break;
+    default  : activated_note_on(channel, note, velocity); break;
     }
 }
 
 void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     switch ((int)*mode) {
-    case HOLD:
-        if (note == (uint8_t)*activate_key) {
-            activated = false;
-            forward();
-        } else if (activated) {
-            activated_note_off(channel, note, velocity);
-        } else {
-            deactivated_note_off(channel, note, velocity);
-        }
-        break;
-    case STOP:
-        if (note == (uint8_t)*activate_key) {
-            forward();
-        } else if (note == cancel_note_off) {
-            cancel_note_off = 255;
-        } else {
-            deactivated_note_off(channel, note, velocity);
-            if (note == last_note) {
-                last_note = 255;
-            }
-        }
-        break;
-    default: // ALWAYS mode
-        activated_note_off(channel, note, velocity);
-        break;
+    case HOLD: hold_note_off(channel, note, velocity);      break;
+    case STOP: stop_note_off(channel, note, velocity);      break;
+    default  : activated_note_off(channel, note, velocity); break;
     }
 }

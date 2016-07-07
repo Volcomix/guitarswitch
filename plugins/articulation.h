@@ -43,6 +43,12 @@ class Articulation : public MidiPlugin {
 
         void connect_port(uint32_t port, void* data);
 
+        void hold_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
+        void hold_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
+
+        void stop_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
+        void stop_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
+        
         void note_on(uint8_t channel, uint8_t note, uint8_t velocity);
         void note_off(uint8_t channel, uint8_t note, uint8_t velocity);
     protected:
