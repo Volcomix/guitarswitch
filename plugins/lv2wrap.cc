@@ -60,25 +60,26 @@ static const void* extension_data(const char* uri) {
     return NULL;
 }
 
+static LV2_Descriptor descriptor;
+
 template <class T>
-static const LV2_Descriptor* descriptor() {
-    LV2_Descriptor* descriptor = new LV2_Descriptor;
-    descriptor->URI            = T::URI;
-    descriptor->instantiate    = instantiate<T>;
-    descriptor->connect_port   = connect_port;
-    descriptor->activate       = NULL;
-    descriptor->run            = run;
-    descriptor->deactivate     = NULL;
-    descriptor->cleanup        = cleanup;
-    descriptor->extension_data = extension_data;
-    return descriptor;
+static const LV2_Descriptor* get_descriptor() {
+    descriptor.URI            = T::URI;
+    descriptor.instantiate    = instantiate<T>;
+    descriptor.connect_port   = connect_port;
+    descriptor.activate       = NULL;
+    descriptor.run            = run;
+    descriptor.deactivate     = NULL;
+    descriptor.cleanup        = cleanup;
+    descriptor.extension_data = extension_data;
+    return &descriptor;
 }
 
 LV2_SYMBOL_EXPORT
 const LV2_Descriptor* lv2_descriptor(uint32_t index)
 {
     switch (index) {
-    case 0 : return descriptor<Repeat>();
+    case 0 : return get_descriptor<Repeat>();
     default: return NULL;
     }
 }
