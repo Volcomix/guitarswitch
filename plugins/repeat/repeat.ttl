@@ -48,6 +48,12 @@
         ] , [
             rdfs:label "Stop" ;
             rdf:value 2
+        ] , [
+            rdfs:label "Min Velocity" ;
+            rdf:value 3
+        ] , [
+            rdfs:label "Max Velocity" ;
+            rdf:value 4
         ]
     ] , [
         a lv2:InputPort ,
@@ -79,4 +85,14 @@
             rdfs:label "G9" ;
             rdf:value 127
         ]
+    ] , [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 4 ;
+        lv2:symbol "velocity_threshold" ;
+        lv2:name "Velocity Threshold" ;
+        lv2:portProperty lv2:integer ;
+        lv2:default 64 ;
+        lv2:minimum 0 ;
+        lv2:maximum 127 ;
     ] .

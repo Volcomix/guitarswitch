@@ -24,17 +24,22 @@
 class Articulation : public MidiPlugin {
         // Ports
         enum {
-            MODE         = 2,
-            ACTIVATE_KEY = 3
+            MODE               = 2,
+            ACTIVATE_KEY       = 3,
+            VELOCITY_THRESHOLD = 4
         };
         enum Mode {
-            ALWAYS = 0,
-            HOLD   = 1,
-            STOP   = 2
+            ALWAYS       = 0,
+            HOLD         = 1,
+            STOP         = 2,
+            MIN_VELOCITY = 3,
+            MAX_VELOCITY = 4
         };
         const float* mode;
         const float* activate_key;
+        const float* velocity_threshold;
 
+        // HOLD mode
         bool activated;
 
         // STOP mode
@@ -48,6 +53,12 @@ class Articulation : public MidiPlugin {
 
         void stop_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
         void stop_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
+
+        void min_velocity_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
+        void min_velocity_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
+
+        void max_velocity_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
+        void max_velocity_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
         
         void note_on(uint8_t channel, uint8_t note, uint8_t velocity);
         void note_off(uint8_t channel, uint8_t note, uint8_t velocity);

@@ -20,9 +20,10 @@
 
 void Articulation::connect_port(uint32_t port, void* data) {
     switch (port) {
-    case MODE        : mode         = (const float*)data;    break;
-    case ACTIVATE_KEY: activate_key = (const float*)data;    break;
-    default          : MidiPlugin::connect_port(port, data); break;
+    case MODE              : mode               = (const float*)data; break;
+    case ACTIVATE_KEY      : activate_key       = (const float*)data; break;
+    case VELOCITY_THRESHOLD: velocity_threshold = (const float*)data; break;
+    default                : MidiPlugin::connect_port(port, data);    break;
     }
 }
 
@@ -82,18 +83,62 @@ void Articulation::stop_note_off(uint8_t channel, uint8_t note, uint8_t velocity
     }
 }
 
+void Articulation::min_velocity_note_on(uint8_t channel,
+                                        uint8_t note,
+                                        uint8_t velocity) {
+    if (velocity >= (uint8_t)*velocity_threshold) {
+        activated_note_on(channel, note, velocity);
+    } else {
+        deactivated_note_on(channel, note, velocity);
+    }
+}
+
+void Articulation::min_velocity_note_off(uint8_t channel,
+                                         uint8_t note,
+                                         uint8_t velocity) {
+    if (velocity >= (uint8_t)*velocity_threshold) {
+        activated_note_off(channel, note, velocity);
+    } else {
+        deactivated_note_off(channel, note, velocity);
+    }
+}
+
+void Articulation::max_velocity_note_on(uint8_t channel,
+                                        uint8_t note,
+                                        uint8_t velocity) {
+    if (velocity <= (uint8_t)*velocity_threshold) {
+        activated_note_on(channel, note, velocity);
+    } else {
+        deactivated_note_on(channel, note, velocity);
+    }
+}
+
+void Articulation::max_velocity_note_off(uint8_t channel,
+                                         uint8_t note,
+                                         uint8_t velocity) {
+    if (velocity <= (uint8_t)*velocity_threshold) {
+        activated_note_off(channel, note, velocity);
+    } else {
+        deactivated_note_off(channel, note, velocity);
+    }
+}
+
 void Articulation::note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-    switch ((int)*mode) {
-    case HOLD: hold_note_on(channel, note, velocity);      break;
-    case STOP: stop_note_on(channel, note, velocity);      break;
-    default  : activated_note_on(channel, note, velocity); break;
+    switch ((uint8_t)*mode) {
+    case HOLD        : hold_note_on(channel, note, velocity);         break;
+    case STOP        : stop_note_on(channel, note, velocity);         break;
+    case MIN_VELOCITY: min_velocity_note_on(channel, note, velocity); break;
+    case MAX_VELOCITY: max_velocity_note_on(channel, note, velocity); break;
+    default          : activated_note_on(channel, note, velocity);    break;
     }
 }
 
 void Articulation::note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
-    switch ((int)*mode) {
-    case HOLD: hold_note_off(channel, note, velocity);      break;
-    case STOP: stop_note_off(channel, note, velocity);      break;
-    default  : activated_note_off(channel, note, velocity); break;
+    switch ((uint8_t)*mode) {
+    case HOLD        : hold_note_off(channel, note, velocity);         break;
+    case STOP        : stop_note_off(channel, note, velocity);         break;
+    case MIN_VELOCITY: min_velocity_note_off(channel, note, velocity); break;
+    case MAX_VELOCITY: max_velocity_note_off(channel, note, velocity); break;
+    default          : activated_note_off(channel, note, velocity);    break;
     }
 }
