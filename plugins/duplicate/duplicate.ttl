@@ -1,0 +1,128 @@
+@prefix atom:  <http://lv2plug.in/ns/ext/atom#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix lv2:   <http://lv2plug.in/ns/lv2core#> .
+@prefix urid:  <http://lv2plug.in/ns/ext/urid#> .
+@prefix midi:  <http://lv2plug.in/ns/ext/midi#> .
+@prefix units: <http://lv2plug.in/ns/extensions/units#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+
+<https://github.com/Volcomix/guitarswitch/plugins/duplicate>
+    a lv2:Plugin ;
+    doap:name "Duplicate articulation" ;
+    doap:license <http://www.gnu.org/licenses/gpl.html> ;
+    lv2:project <https://github.com/Volcomix/guitarswitch> ;
+    lv2:requiredFeature urid:map ;
+    lv2:optionalFeature lv2:hardRTCapable ;
+    lv2:port [
+        a lv2:InputPort ,
+            atom:AtomPort ;
+        atom:bufferType atom:Sequence ;
+        atom:supports midi:MidiEvent ;
+        lv2:index 0 ;
+        lv2:symbol "in" ;
+        lv2:name "In"
+    ] , [
+        a lv2:OutputPort ,
+            atom:AtomPort ;
+        atom:bufferType atom:Sequence ;
+        atom:supports midi:MidiEvent ;
+        lv2:index 1 ;
+        lv2:symbol "out" ;
+        lv2:name "Out"
+    ] , [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 2 ;
+        lv2:symbol "mode" ;
+        lv2:name "Mode" ;
+        lv2:portProperty lv2:enumeration ;
+        lv2:default 0 ;
+        lv2:scalePoint [
+            rdfs:label "Always" ;
+            rdf:value 0
+        ] , [
+            rdfs:label "Hold" ;
+            rdf:value 1
+        ] , [
+            rdfs:label "Min Velocity" ;
+            rdf:value 3
+        ] , [
+            rdfs:label "Max Velocity" ;
+            rdf:value 4
+        ]
+    ] , [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 3 ;
+        lv2:symbol "activate_key" ;
+        lv2:name "Activate Key" ;
+        lv2:portProperty lv2:integer ;
+        lv2:default 38 ;
+        lv2:minimum 0 ;
+        lv2:maximum 127 ;
+        units:unit units:midiNote ;
+        lv2:scalePoint [
+            rdfs:label "C-1" ;
+            rdf:value 0
+        ] , [
+            rdfs:label "C1" ;
+            rdf:value 24
+        ] , [
+            rdfs:label "C3" ;
+            rdf:value 48
+        ] , [
+            rdfs:label "C5" ;
+            rdf:value 72
+        ] , [
+            rdfs:label "C7" ;
+            rdf:value 96
+        ] , [
+            rdfs:label "G9" ;
+            rdf:value 127
+        ]
+    ] , [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 4 ;
+        lv2:symbol "velocity_threshold" ;
+        lv2:name "Velocity Threshold" ;
+        lv2:portProperty lv2:integer ;
+        lv2:default 64 ;
+        lv2:minimum 0 ;
+        lv2:maximum 127 ;
+    ] , [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 5 ;
+        lv2:symbol "transpose" ;
+        lv2:name "Transpose" ;
+        lv2:portProperty lv2:integer ;
+        lv2:default 7 ;
+        lv2:minimum -24 ;
+        lv2:maximum 24 ;
+        units:unit units:semitone12TET ;
+        lv2:scalePoint [
+            rdfs:label "-2 oct" ;
+            rdf:value -24
+        ] , [
+            rdfs:label "-1 oct" ;
+            rdf:value -12
+        ] , [
+            rdfs:label "-7 semi" ;
+            rdf:value -7
+        ] , [
+            rdfs:label "Off" ;
+            rdf:value 0
+        ] , [
+            rdfs:label "+7 semi" ;
+            rdf:value 7
+        ] , [
+            rdfs:label "+1 oct" ;
+            rdf:value 12
+        ] , [
+            rdfs:label "+2 oct" ;
+            rdf:value 24
+        ]
+    ] .

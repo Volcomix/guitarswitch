@@ -21,6 +21,7 @@
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 
 #include "plugin.h"
+#include "duplicate/duplicate.h"
 #include "repeat/repeat.h"
 
 using namespace std;
@@ -79,7 +80,8 @@ LV2_SYMBOL_EXPORT
 const LV2_Descriptor* lv2_descriptor(uint32_t index)
 {
     switch (index) {
-    case 0 : return get_descriptor<Repeat>();
+    case 0 : return get_descriptor<Duplicate>();
+    case 1 : return get_descriptor<Repeat>();
     default: return NULL;
     }
 }
