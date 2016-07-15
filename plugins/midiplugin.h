@@ -34,7 +34,6 @@ class MidiPlugin : public Plugin {
         const LV2_Atom_Sequence* in_port;
         LV2_Atom_Sequence* out_port;
 
-        // URIs
         typedef struct {
             LV2_URID midi_Event;
         } URIs;
@@ -42,15 +41,14 @@ class MidiPlugin : public Plugin {
 
         uint32_t out_capacity;
 
-        void map_uris();
-        void run(uint32_t sample_count);
+        void append_event(LV2_Atom_Event* ev);
+        void append_note(uint8_t status, uint8_t note, uint8_t velocity);
     protected:
         LV2_Atom_Event* ev;
 
-        void append_event(LV2_Atom_Event* ev);
+        void append_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
+        void append_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
         void forward();
-        
-        virtual void connect_port(uint32_t port, void* data);
 
         virtual void note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
             forward();
@@ -60,6 +58,11 @@ class MidiPlugin : public Plugin {
         }
     public:
         MidiPlugin(const LV2_Feature* const* features) : Plugin(features) { };
+
+        void map_uris();
+        void run(uint32_t sample_count);
+        
+        virtual void connect_port(uint32_t port, void* data);
 };
 
 typedef struct {

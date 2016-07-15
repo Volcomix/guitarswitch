@@ -29,15 +29,20 @@ class Duplicate : public Articulation {
         };
         const float* transpose;
 
-        void connect_port(uint32_t port, void* data);
+        uint8_t dup_channel = 255;
+        uint8_t dup_note    = 255;
 
-        void duplicate(uint8_t status, uint8_t note, uint8_t velocity);
+        void duplicate(uint8_t channel, uint8_t note, uint8_t velocity);
+        void stop_duplicate(uint8_t velocity);
+    protected:
         void activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
         void activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
         void deactivated_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
     public:
         static const char* URI;
         Duplicate(const LV2_Feature* const* features) : Articulation(features) { };
+        
+        void connect_port(uint32_t port, void* data);
 };
 
 #endif // DUPLICATE_H

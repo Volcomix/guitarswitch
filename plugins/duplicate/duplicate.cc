@@ -27,29 +27,39 @@ void Duplicate::connect_port(uint32_t port, void* data) {
     }
 }
 
-void Duplicate::duplicate(uint8_t status, uint8_t note, uint8_t velocity) {
-    forward();
+void Duplicate::duplicate(uint8_t channel, uint8_t note, uint8_t velocity) {
+    uint8_t transpose       = *this->transpose;
+    uint8_t transposed_note = note + transpose;
 
-    uint8_t transpose = *this->transpose;
-    if (transpose == 0 || note + transpose < 0 || note + transpose > 127) {
+    if (transpose == 0 || transposed_note < 0 || transposed_note > 127) {
         return;
     }
+    
+    append_note_on(channel, transposed_note, velocity);
+    dup_channel = channel;
+    dup_note    = note;
+}
 
-    MIDINoteEvent duplicate;
-    duplicate.event  = *ev;
-    duplicate.msg[0] = status;
-    duplicate.msg[1] = note + transpose;
-    duplicate.msg[2] = velocity;
-
-    append_event(&duplicate.event);
+void Duplicate::stop_duplicate(uint8_t velocity) {
+    uint8_t transpose = *this->transpose;
+    append_note_off(dup_channel, dup_note + transpose, velocity);
 }
 
 void Duplicate::activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-    duplicate(channel | LV2_MIDI_MSG_NOTE_ON, note, velocity);
+    if (dup_note != 255) {
+        stop_duplicate(velocity);
+    }
+    forward();
+    duplicate(channel, note, velocity);
 }
 
 void Duplicate::activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
-    duplicate(channel | LV2_MIDI_MSG_NOTE_OFF, note, velocity);
+    forward();
+    if (dup_channel == channel && dup_note == note) {
+        stop_duplicate(velocity);
+        dup_channel = 255;
+        dup_note    = 255;
+    }
 }
 
 void Duplicate::deactivated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {

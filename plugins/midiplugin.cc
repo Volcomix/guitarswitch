@@ -52,6 +52,24 @@ void MidiPlugin::append_event(LV2_Atom_Event* ev) {
     lv2_atom_sequence_append_event(out_port, out_capacity, ev);
 }
 
+void MidiPlugin::append_note(uint8_t status, uint8_t note, uint8_t velocity) {
+    MIDINoteEvent noteEvent;
+    noteEvent.event  = *ev;
+    noteEvent.msg[0] = status;
+    noteEvent.msg[1] = note;
+    noteEvent.msg[2] = velocity;
+
+    append_event(&noteEvent.event);
+}
+
+void MidiPlugin::append_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
+    append_note(LV2_MIDI_MSG_NOTE_ON | channel, note, velocity);
+}
+
+void MidiPlugin::append_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
+    append_note(LV2_MIDI_MSG_NOTE_OFF | channel, note, velocity);
+}
+
 void MidiPlugin::forward() {
     append_event(ev);
 }

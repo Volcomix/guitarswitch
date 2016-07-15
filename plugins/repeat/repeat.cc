@@ -20,38 +20,16 @@
 
 const char* Repeat::URI = "https://github.com/Volcomix/guitarswitch/plugins/repeat";
 
-void Repeat::repeat(uint8_t channel, uint8_t note, uint8_t velocity) {
-    MIDINoteEvent repeat;
-    repeat.event  = *ev;
-    repeat.msg[0] = channel | LV2_MIDI_MSG_NOTE_ON;
-    repeat.msg[1] = note;
-    repeat.msg[2] = velocity;
-
-    append_event(&repeat.event);
-
-    repeat_channel  = channel;
-    repeat_note     = note;
-    repeat_velocity = velocity;
-}
-
-void Repeat::stop_repeat() {
+void Repeat::stop_repeat(uint8_t velocity) {
     if (repeat_note != 255) {
-        MIDINoteEvent stop;
-        stop.event  = *ev;
-        stop.msg[0] = repeat_channel | LV2_MIDI_MSG_NOTE_OFF;
-        stop.msg[1] = repeat_note;
-        stop.msg[2] = repeat_velocity;
-
-        append_event(&stop.event);
-
-        repeat_channel  = 255;
-        repeat_note     = 255;
-        repeat_velocity = 255;
+        append_note_off(repeat_channel, repeat_note, velocity);
     }
 }
 
 void Repeat::activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-    stop_repeat();
+    stop_repeat(velocity);
+    repeat_channel = 255;
+    repeat_note    = 255;
     forward();
 }
 
@@ -61,6 +39,8 @@ void Repeat::deactivated_note_on(uint8_t channel, uint8_t note, uint8_t velocity
 
 void Repeat::activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     forward();
-    stop_repeat();
-    repeat(channel, note, velocity);
+    stop_repeat(velocity);
+    append_note_on(channel, note, velocity);
+    repeat_channel = channel;
+    repeat_note    = note;
 }
