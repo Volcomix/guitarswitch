@@ -22,8 +22,7 @@
 #include "midiplugin.h"
 
 class Articulation : public MidiPlugin {
-        // Ports
-        enum {
+        enum Ports {
             MODE               = 2,
             ACTIVATE_KEY       = 3,
             VELOCITY_THRESHOLD = 4

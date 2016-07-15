@@ -24,8 +24,7 @@
 #include "../articulation.h"
 
 class Duplicate : public Articulation {
-        // Ports
-        enum {
+        enum Ports {
             TRANSPOSE = 5
         };
         const float* transpose;

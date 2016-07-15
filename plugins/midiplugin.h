@@ -27,8 +27,7 @@
 #include "plugin.h"
 
 class MidiPlugin : public Plugin {
-        // Ports
-        enum {
+        enum Ports {
             IN  = 0,
             OUT = 1
         };
