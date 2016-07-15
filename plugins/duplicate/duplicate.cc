@@ -27,9 +27,15 @@ void Duplicate::connect_port(uint32_t port, void* data) {
     }
 }
 
-void Duplicate::duplicate(uint8_t channel, uint8_t note, uint8_t velocity) {
+void Duplicate::activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
     uint8_t transpose       = *this->transpose;
     uint8_t transposed_note = note + transpose;
+
+    if (dup_note != 255) {
+        append_note_off(dup_channel, dup_note + transpose, velocity);
+    }
+
+    forward();
 
     if (transpose == 0 || transposed_note < 0 || transposed_note > 127) {
         return;
@@ -40,23 +46,11 @@ void Duplicate::duplicate(uint8_t channel, uint8_t note, uint8_t velocity) {
     dup_note    = note;
 }
 
-void Duplicate::stop_duplicate(uint8_t velocity) {
-    uint8_t transpose = *this->transpose;
-    append_note_off(dup_channel, dup_note + transpose, velocity);
-}
-
-void Duplicate::activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity) {
-    if (dup_note != 255) {
-        stop_duplicate(velocity);
-    }
-    forward();
-    duplicate(channel, note, velocity);
-}
-
 void Duplicate::activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity) {
     forward();
     if (dup_channel == channel && dup_note == note) {
-        stop_duplicate(velocity);
+        uint8_t transpose = *this->transpose;
+        append_note_off(dup_channel, dup_note + transpose, velocity);
         dup_channel = 255;
         dup_note    = 255;
     }

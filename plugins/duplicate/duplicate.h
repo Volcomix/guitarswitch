@@ -31,9 +31,6 @@ class Duplicate : public Articulation {
 
         uint8_t dup_channel = 255;
         uint8_t dup_note    = 255;
-
-        void duplicate(uint8_t channel, uint8_t note, uint8_t velocity);
-        void stop_duplicate(uint8_t velocity);
     protected:
         void activated_note_on(uint8_t channel, uint8_t note, uint8_t velocity);
         void activated_note_off(uint8_t channel, uint8_t note, uint8_t velocity);
