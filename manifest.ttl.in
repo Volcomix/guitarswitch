@@ -10,3 +10,8 @@ rdfs:seeAlso <repeat.ttl> .
     a lv2:Plugin ;
     lv2:binary <guitarswitch.so> ;
 rdfs:seeAlso <duplicate.ttl> .
+
+<https://github.com/Volcomix/guitarswitch/plugins/noise>
+    a lv2:Plugin ;
+    lv2:binary <guitarswitch.so> ;
+rdfs:seeAlso <noise.ttl> .
