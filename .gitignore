@@ -30,3 +30,6 @@
 
 # Visual Studio Code symbol offline database
 .vscode/.browse.VC.db*
+
+# Generated manifest
+manifest.ttl

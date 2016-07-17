@@ -1,0 +1,6 @@
+
+
+<https://github.com/Volcomix/guitarswitch/plugins/@LV2NAME@>
+    a lv2:Plugin ;
+    lv2:binary <guitarswitch.so> ;
+rdfs:seeAlso <@LV2NAME@.ttl> .
