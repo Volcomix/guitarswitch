@@ -19,16 +19,20 @@ guitarswitch.so : $(OBJS)
 $(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/articulation.h \
           $(PLUGINS:.cc=.h)
 
-$(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in)
+$(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in) plugins/articulation.ttl.in
 	for lv2name in $(basename $(notdir $(PLUGINS))) ; do \
-		sed "s/@LV2NAME@/$$lv2name/" plugins/$$lv2name/$$lv2name.ttl.in \
-		>> plugins/$$lv2name/$$lv2name.ttl ; done
+		sed "s/\/\//@@/" plugins/$$lv2name/$$lv2name.ttl.in \
+		| cc -E -x c -P -Iplugins/$$lv2name - \
+		| sed "s/@@/\/\//" \
+		> plugins/$$lv2name/$$lv2name.ttl ; \
+	done
 
 manifest.ttl : manifest.ttl.in plugin.ttl.in
 	cp manifest.ttl.in manifest.ttl
 	for lv2name in $(basename $(notdir $(PLUGINS))) ; do \
 		sed "s/@LV2NAME@/$$lv2name/" plugin.ttl.in \
-		>> manifest.ttl ; done
+		>> manifest.ttl ; \
+	done
 
 install : all
 	install -d $(DESTDIR)$(LV2DIR)/$(BUNDLE)

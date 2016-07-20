@@ -1,0 +1,81 @@
+#define GS_ARTICULATION_PORTS [ \
+        a lv2:InputPort , \
+            atom:AtomPort ; \
+        atom:bufferType atom:Sequence ; \
+        atom:supports midi:MidiEvent ; \
+        lv2:index 0 ; \
+        lv2:symbol "in" ; \
+        lv2:name "In" \
+    ] , [ \
+        a lv2:OutputPort , \
+            atom:AtomPort ; \
+        atom:bufferType atom:Sequence ; \
+        atom:supports midi:MidiEvent ; \
+        lv2:index 1 ; \
+        lv2:symbol "out" ; \
+        lv2:name "Out" \
+    ] , [ \
+        a lv2:InputPort , \
+            lv2:ControlPort ; \
+        lv2:index 2 ; \
+        lv2:symbol "mode" ; \
+        lv2:name "Mode" ; \
+        lv2:portProperty lv2:enumeration ; \
+        lv2:default 0 ; \
+        lv2:scalePoint [ \
+            rdfs:label "Always" ; \
+            rdf:value 0 \
+        ] , [ \
+            rdfs:label "Hold" ; \
+            rdf:value 1 \
+        ] , [ \
+            rdfs:label "Stop" ; \
+            rdf:value 2 \
+        ] , [ \
+            rdfs:label "Min Velocity" ; \
+            rdf:value 3 \
+        ] , [ \
+            rdfs:label "Max Velocity" ; \
+            rdf:value 4 \
+        ] \
+    ] , [ \
+        a lv2:InputPort , \
+            lv2:ControlPort ; \
+        lv2:index 3 ; \
+        lv2:symbol "activate_key" ; \
+        lv2:name "Activate Key" ; \
+        lv2:portProperty lv2:integer ; \
+        lv2:default 38 ; \
+        lv2:minimum 0 ; \
+        lv2:maximum 127 ; \
+        units:unit units:midiNote ; \
+        lv2:scalePoint [ \
+            rdfs:label "C-1" ; \
+            rdf:value 0 \
+        ] , [ \
+            rdfs:label "C1" ; \
+            rdf:value 24 \
+        ] , [ \
+            rdfs:label "C3" ; \
+            rdf:value 48 \
+        ] , [ \
+            rdfs:label "C5" ; \
+            rdf:value 72 \
+        ] , [ \
+            rdfs:label "C7" ; \
+            rdf:value 96 \
+        ] , [ \
+            rdfs:label "G9" ; \
+            rdf:value 127 \
+        ] \
+    ] , [ \
+        a lv2:InputPort , \
+            lv2:ControlPort ; \
+        lv2:index 4 ; \
+        lv2:symbol "velocity_threshold" ; \
+        lv2:name "Velocity Threshold" ; \
+        lv2:portProperty lv2:integer ; \
+        lv2:default 64 ; \
+        lv2:minimum 0 ; \
+        lv2:maximum 127 ; \
+    ]
