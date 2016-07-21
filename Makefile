@@ -19,8 +19,7 @@ guitarswitch.so : $(OBJS)
 $(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/articulation.h \
           $(PLUGINS:.cc=.h)
 
-$(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in) plugins/articulation.ttl.in \
-                      plugins/head.ttl.in
+$(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in) plugins/articulation.ttl.in
 	for ttl in $(PLUGINS:.cc=.ttl) ; do \
 		cc -E -x c -P -nostdinc -CC $$ttl.in -o $$ttl ; \
 	done

@@ -1,4 +1,3 @@
-#include "../head.ttl.in"
 #include "../articulation.ttl.in"
 
 <https://github.com/Volcomix/guitarswitch/plugins/repeat>

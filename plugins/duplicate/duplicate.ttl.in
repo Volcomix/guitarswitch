@@ -1,4 +1,3 @@
-#include "../head.ttl.in"
 #include "../articulation.ttl.in"
 
 <https://github.com/Volcomix/guitarswitch/plugins/duplicate>
@@ -8,7 +7,8 @@
     lv2:project <https://github.com/Volcomix/guitarswitch> ;
     lv2:requiredFeature urid:map ;
     lv2:optionalFeature lv2:hardRTCapable ;
-    lv2:port GS_ARTICULATION_PORTS , [
+    lv2:port GS_ARTICULATION_PORTS ,
+    [
         a lv2:InputPort ,
             lv2:ControlPort ;
         lv2:index 5 ;
