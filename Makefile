@@ -21,7 +21,7 @@ $(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/articulation.h \
 
 $(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in) plugins/articulation.ttl.in
 	for ttl in $(PLUGINS:.cc=.ttl) ; do \
-		cc -E -x c -P -nostdinc -CC $$ttl.in -o $$ttl ; \
+		cc -E -x c -P -nostdinc -CC -traditional-cpp $$ttl.in -o $$ttl ; \
 	done
 
 manifest.ttl : manifest.ttl.in plugin.ttl.in
