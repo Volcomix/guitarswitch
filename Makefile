@@ -19,11 +19,10 @@ guitarswitch.so : $(OBJS)
 $(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/articulation.h \
           $(PLUGINS:.cc=.h)
 
-$(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in) plugins/articulation.ttl.in
+$(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in) plugins/articulation.ttl.in \
+                      plugins/head.ttl.in
 	for lv2name in $(basename $(notdir $(PLUGINS))) ; do \
-		sed "s/\/\//@@/" plugins/$$lv2name/$$lv2name.ttl.in \
-		| cc -E -x c -P -Iplugins/$$lv2name - \
-		| sed "s/@@/\/\//" \
+		cc -E -x c -P -nostdinc -CC plugins/$$lv2name/$$lv2name.ttl.in \
 		> plugins/$$lv2name/$$lv2name.ttl ; \
 	done
 
