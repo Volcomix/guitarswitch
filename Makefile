@@ -21,9 +21,8 @@ $(OBJS) : plugins/plugin.h plugins/midiplugin.h plugins/articulation.h \
 
 $(PLUGINS:.cc=.ttl) : $(PLUGINS:.cc=.ttl.in) plugins/articulation.ttl.in \
                       plugins/head.ttl.in
-	for lv2name in $(basename $(notdir $(PLUGINS))) ; do \
-		cc -E -x c -P -nostdinc -CC plugins/$$lv2name/$$lv2name.ttl.in \
-		> plugins/$$lv2name/$$lv2name.ttl ; \
+	for ttl in $(PLUGINS:.cc=.ttl) ; do \
+		cc -E -x c -P -nostdinc -CC $$ttl.in -o $$ttl ; \
 	done
 
 manifest.ttl : manifest.ttl.in plugin.ttl.in
