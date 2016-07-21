@@ -7,7 +7,12 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-#define GS_ARTICULATION_PORTS [ \
+#define GS_STOP_MODE [ \
+            rdfs:label "Stop" ; \
+            rdf:value 2 \
+        ] ,
+
+#define GS_ARTICULATION_PORTS(STOP_MODE) [ \
         a lv2:InputPort , \
             atom:AtomPort ; \
         atom:bufferType atom:Sequence ; \
@@ -37,10 +42,7 @@
         ] , [ \
             rdfs:label "Hold" ; \
             rdf:value 1 \
-        ] , [ \
-            rdfs:label "Stop" ; \
-            rdf:value 2 \
-        ] , [ \
+        ] , STOP_MODE [ \
             rdfs:label "Min Velocity" ; \
             rdf:value 3 \
         ] , [ \
