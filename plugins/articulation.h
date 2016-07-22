@@ -16,8 +16,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ARTICULATION_H
-#define ARTICULATION_H
+#ifndef GS_ARTICULATION_H
+#define GS_ARTICULATION_H
 
 #include "midiplugin.h"
 
@@ -81,4 +81,4 @@ class Articulation : public MidiPlugin {
         virtual void connect_port(uint32_t port, void* data);
 };
 
-#endif // ARTICULATION_H
+#endif // GS_ARTICULATION_H

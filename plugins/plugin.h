@@ -16,8 +16,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLUGIN_H
-#define PLUGIN_H
+#ifndef GS_PLUGIN_H
+#define GS_PLUGIN_H
 
 #include <cstring>
 
@@ -52,4 +52,4 @@ class MissingFeatureException {
         }
 };
 
-#endif // PLUGIN_H
+#endif // GS_PLUGIN_H

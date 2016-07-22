@@ -16,8 +16,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef REPEAT_H
-#define REPEAT_H
+#ifndef GS_REPEAT_H
+#define GS_REPEAT_H
 
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 
@@ -37,4 +37,4 @@ class Repeat : public Articulation {
         Repeat(const LV2_Feature* const* features) : Articulation(features) { };
 };
 
-#endif // REPEAT_H
+#endif // GS_REPEAT_H

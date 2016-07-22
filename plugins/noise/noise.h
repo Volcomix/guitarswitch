@@ -16,8 +16,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NOISE_H
-#define NOISE_H
+#ifndef GS_NOISE_H
+#define GS_NOISE_H
 
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 
@@ -45,4 +45,4 @@ class Noise : public Articulation {
         void connect_port(uint32_t port, void* data);
 };
 
-#endif // NOISE_H
+#endif // GS_NOISE_H

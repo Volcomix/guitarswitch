@@ -16,8 +16,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MIDIPLUGIN_H
-#define MIDIPLUGIN_H
+#ifndef GS_MIDIPLUGIN_H
+#define GS_MIDIPLUGIN_H
 
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 #include "lv2/lv2plug.in/ns/ext/atom/util.h"
@@ -70,4 +70,4 @@ typedef struct {
     uint8_t        msg[3];
 } MIDINoteEvent;
 
-#endif // MIDIPLUGIN_H
+#endif // GS_MIDIPLUGIN_H

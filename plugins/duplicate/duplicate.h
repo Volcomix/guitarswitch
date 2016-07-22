@@ -16,8 +16,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DUPLICATE_H
-#define DUPLICATE_H
+#ifndef GS_DUPLICATE_H
+#define GS_DUPLICATE_H
 
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 
@@ -42,4 +42,4 @@ class Duplicate : public Articulation {
         void connect_port(uint32_t port, void* data);
 };
 
-#endif // DUPLICATE_H
+#endif // GS_DUPLICATE_H
