@@ -7,7 +7,8 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-#define GS_ARTICULATION(NAME, DESCRIPTION) <https://github.com/Volcomix/guitarswitch/plugins/NAME> \
+#define GS_ARTICULATION(NAME, DESCRIPTION) \
+<https://github.com/Volcomix/guitarswitch/plugins/NAME> \
     a lv2:Plugin ; \
     doap:name "DESCRIPTION" ; \
     doap:license <http://www.gnu.org/licenses/gpl.html> ; \
